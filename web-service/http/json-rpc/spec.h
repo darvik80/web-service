@@ -37,6 +37,7 @@ namespace json_rpc {
         boost::optional<jsonTree> id;
         std::string jsonrpc;
     public:
+        Request() : jsonrpc(Version) {}
         BEGIN_JSON_MARSHAL
         __ITEM_JSON_MARSHAL(id)
         __ITEM_JSON_MARSHAL(method)
@@ -63,20 +64,18 @@ namespace json_rpc {
         boost::optional<jsonTree> data;
     public:
         Error() : code(0) {}
-        Error(int code, const std::string& message)
-         :code(code), message(message)
-        {
-            
-        }
+        Error(int code, const std::string& message) :code(code), message(message) {}
  
         BEGIN_JSON_MARSHAL
         __ITEM_JSON_MARSHAL(code)
         __ITEM_JSON_MARSHAL(message)
+        __ITEM_JSON_MARSHAL(data)
         END_JSON_MARSHAL
         
         BEGIN_JSON_UNMARSHAL
         __ITEM_JSON_UNMARSHAL(code)
         __ITEM_JSON_UNMARSHAL(message)
+        __ITEM_JSON_UNMARSHAL(data)
         END_JSON_UNMARSHAL
     };
     
@@ -88,11 +87,13 @@ namespace json_rpc {
         boost::optional<jsonTree> id;
         std::string jsonrpc;
     public:
+        Response() : jsonrpc(Version) {}
+
         BEGIN_JSON_MARSHAL
         __ITEM_JSON_MARSHAL(id)
         __ITEM_JSON_MARSHAL(result)
-        __ITEM_JSON_MARSHAL_OBJ(error)
-        __ITEM_JSON_MARSHAL_TAG(jsonrpc, Version)
+        __ITEM_JSON_MARSHAL_OBJ_OPT(error)
+        __ITEM_JSON_MARSHAL(jsonrpc)
         END_JSON_MARSHAL
         
         BEGIN_JSON_UNMARSHAL

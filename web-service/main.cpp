@@ -7,7 +7,7 @@
 //
 
 #include <iostream>
-#include "http/json-rpc/spec.hpp"
+#include "http/json-rpc/spec.h"
 #include "http/json-rpc/helper.h"
 
 int main(int argc, const char * argv[]) {
@@ -35,6 +35,8 @@ int main(int argc, const char * argv[]) {
         json_rpc::Response response;
         response.decode("{\"jsonrpc\": \"2.0\", \"id\":\"id#002\",\"error\":{\"code\": 100, \"message\":\"Test\"}}");
         std::cout << response.error.get().code << ": " << response.error.get().message << std::endl;
+        
+        std::cout << response.encode() << std::endl;
     } catch (std::exception& ex) {
         std::cerr << "Handle exception:" << ex.what() << std::endl;
     }

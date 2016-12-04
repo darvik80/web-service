@@ -78,10 +78,12 @@ namespace json_rpc {
     };
     
 #define BEGIN_JSON_MARSHAL const json_rpc::jsonTree marshal() throw (std::exception) { json_rpc::jsonTree root;
+#define __ITEM_JSON_MARSHAL_OBJ(name) { auto v = name.marshal(); root.put_child(#name, v); }
+#define __ITEM_JSON_MARSHAL_OBJ_OPT(name) if (name) { auto v = name.get().marshal(); root.put_child(#name, v); }
+#define __ITEM_JSON_MARSHAL_OBJ_TAG(tag, name) { auto v = name.marshal(); root.put_child(#tag, v); }
+#define __ITEM_JSON_MARSHAL_OBJ_TAG_OPT(tag, name) if (name) { auto v = name.get().marshal(); root.put_child(#tag, v); }
 #define __ITEM_JSON_MARSHAL(name) json_rpc::helper::marshal(root, #name, name);
-#define __ITEM_JSON_MARSHAL_OBJ(name) json_rpc::helper::marshal(root, #name, (json_rpc::IMarshal*) &name);
 #define __ITEM_JSON_MARSHAL_TAG(tag, name) json_rpc::helper::marshal(root, #tag, name);
-#define __ITEM_JSON_MARSHAL_OBJ_TAG(tag, name) json_rpc::helper::marshal(root, tag, (json_rpc::IMarshal*) &name);
 #define END_JSON_MARSHAL return root; }
     
 #define BEGIN_JSON_UNMARSHAL void unmarshal(const json_rpc::jsonTree& root) throw (std::exception) {
