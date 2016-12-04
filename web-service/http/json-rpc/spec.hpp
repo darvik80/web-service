@@ -14,8 +14,10 @@
 #include <boost/optional.hpp>
 #include <boost/property_tree/ptree.hpp>
 
-namespace json_rpc {
+#include "types.h"
+#include "helper.h"
 
+namespace json_rpc {
 #define Version "2.0"
     
     enum Code {
@@ -27,63 +29,81 @@ namespace json_rpc {
         ServerError = -32000, // to -32099	Server error	Reserved for implementation-defined server-errors.
     };
     
-    typedef boost::shared_ptr<boost::property_tree::ptree> jsonTree;
-    
-    class IMarshaller {
+    class Request : public JsonBase {
     public:
-        virtual const jsonTree marshal() = 0;
-    };
-
-    class IUnmarshaller {
-    public:
-        const jsonTree marshal();
-    };
-
-    class Request {
-        std::string m_method;
-        boost::optional<jsonTree> m_params;
+        std::string method;
+        boost::optional<jsonTree> params;
         
-        boost::optional<jsonTree> m_id;
+        boost::optional<jsonTree> id;
+        std::string jsonrpc;
     public:
-        void decode(const std::string& json);
-        const std::string encode();
+        BEGIN_JSON_MARSHAL
+        __ITEM_JSON_MARSHAL(id)
+        __ITEM_JSON_MARSHAL(method)
+        __ITEM_JSON_MARSHAL(params)
+        __ITEM_JSON_MARSHAL(jsonrpc)
+        END_JSON_MARSHAL
         
-        const std::string& method() {
-            return m_method;
-        }
-        const boost::optional<jsonTree>& params() {
-            return m_params;
-        }
-        const boost::optional<jsonTree>& id() {
-            return m_id;
+        BEGIN_JSON_UNMARSHAL
+        __ITEM_JSON_UNMARSHAL(id)
+        __ITEM_JSON_UNMARSHAL(method)
+        __ITEM_JSON_UNMARSHAL(params)
+        __ITEM_JSON_UNMARSHAL(jsonrpc)
+        END_JSON_UNMARSHAL
+        
+        virtual bool validate() {
+            return jsonrpc == Version;
         }
     };
     
-    class Error {
+    class Error : public JsonBase {
+    public:
         int code;
         std::string message;
         boost::optional<jsonTree> data;
+    public:
+        Error() : code(0) {}
+        Error(int code, const std::string& message)
+         :code(code), message(message)
+        {
+            
+        }
+ 
+        BEGIN_JSON_MARSHAL
+        __ITEM_JSON_MARSHAL(code)
+        __ITEM_JSON_MARSHAL(message)
+        END_JSON_MARSHAL
+        
+        BEGIN_JSON_UNMARSHAL
+        __ITEM_JSON_UNMARSHAL(code)
+        __ITEM_JSON_UNMARSHAL(message)
+        END_JSON_UNMARSHAL
     };
     
-    class Response {
-        boost::optional<jsonTree> m_result;
-        boost::optional<Error> m_error;
-        
-        boost::optional<jsonTree> m_id;
+    class Response : public JsonBase {
     public:
-        Response()
-        void decode(const std::string& json);
-        const std::string encode();
+        boost::optional<jsonTree> result;
+        boost::optional<Error> error;
         
-        const boost::optional<jsonTree>& result() {
-            return m_result;
-        }
-        const boost::optional<jsonTree>& error() {
-            return m_error;
-        }
+        boost::optional<jsonTree> id;
+        std::string jsonrpc;
+    public:
+        BEGIN_JSON_MARSHAL
+        __ITEM_JSON_MARSHAL(id)
+        __ITEM_JSON_MARSHAL(result)
+        __ITEM_JSON_MARSHAL_OBJ(error)
+        __ITEM_JSON_MARSHAL_TAG(jsonrpc, Version)
+        END_JSON_MARSHAL
         
-        const boost::optional<jsonTree>& id() {
-            return m_id;
+        BEGIN_JSON_UNMARSHAL
+        __ITEM_JSON_UNMARSHAL(id)
+        __ITEM_JSON_UNMARSHAL(result)
+        __ITEM_JSON_UNMARSHAL_OBJ(error)
+        __ITEM_JSON_UNMARSHAL(jsonrpc)
+        END_JSON_UNMARSHAL
+        
+        virtual bool validate() {
+            return jsonrpc == Version;
         }
     };
 }

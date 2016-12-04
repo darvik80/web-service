@@ -24,6 +24,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5992C1021DF0F1DB009BB27D /* helper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = helper.h; path = "http/json-rpc/helper.h"; sourceTree = "<group>"; };
+		5992C1031DF19927009BB27D /* types.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = types.h; path = "http/json-rpc/types.h"; sourceTree = "<group>"; };
 		59BD758E1DEFFC72003A7E45 /* web-service */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "web-service"; sourceTree = BUILT_PRODUCTS_DIR; };
 		59BD75911DEFFC72003A7E45 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		59BD759F1DF00585003A7E45 /* spec.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = spec.cpp; path = "http/json-rpc/spec.cpp"; sourceTree = "<group>"; };
@@ -79,6 +81,8 @@
 			children = (
 				59BD75A41DF00C12003A7E45 /* spec.hpp */,
 				59BD759F1DF00585003A7E45 /* spec.cpp */,
+				5992C1021DF0F1DB009BB27D /* helper.h */,
+				5992C1031DF19927009BB27D /* types.h */,
 			);
 			name = "json-rpc";
 			sourceTree = "<group>";
@@ -288,6 +292,7 @@
 				59BD75971DEFFC72003A7E45 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
