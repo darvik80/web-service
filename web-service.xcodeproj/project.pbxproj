@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		593A57D21E11330D005BD856 /* config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 593A57D01E11330D005BD856 /* config.cpp */; };
+		593A57D51E1133FB005BD856 /* application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 593A57D31E1133FB005BD856 /* application.cpp */; };
 		59BD75921DEFFC72003A7E45 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59BD75911DEFFC72003A7E45 /* main.cpp */; };
 /* End PBXBuildFile section */
 
@@ -23,8 +25,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		5992C1021DF0F1DB009BB27D /* helper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = helper.h; path = "http/json-rpc/helper.h"; sourceTree = "<group>"; };
-		5992C1031DF19927009BB27D /* types.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = types.h; path = "http/json-rpc/types.h"; sourceTree = "<group>"; };
+		593A57CE1E113018005BD856 /* json-helper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "json-helper.h"; path = "json/json-helper.h"; sourceTree = "<group>"; };
+		593A57CF1E11303F005BD856 /* json-types.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "json-types.h"; path = "json/json-types.h"; sourceTree = "<group>"; };
+		593A57D01E11330D005BD856 /* config.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = config.cpp; sourceTree = "<group>"; };
+		593A57D11E11330D005BD856 /* config.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = config.hpp; sourceTree = "<group>"; };
+		593A57D31E1133FB005BD856 /* application.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = application.cpp; sourceTree = "<group>"; };
+		593A57D41E1133FB005BD856 /* application.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = application.hpp; sourceTree = "<group>"; };
 		59BD758E1DEFFC72003A7E45 /* web-service */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "web-service"; sourceTree = BUILT_PRODUCTS_DIR; };
 		59BD75911DEFFC72003A7E45 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		59BD75A41DF00C12003A7E45 /* spec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = spec.h; path = "http/json-rpc/spec.h"; sourceTree = "<group>"; };
@@ -41,6 +47,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		593A57CD1E112FD4005BD856 /* json */ = {
+			isa = PBXGroup;
+			children = (
+				593A57CE1E113018005BD856 /* json-helper.h */,
+				593A57CF1E11303F005BD856 /* json-types.h */,
+			);
+			name = json;
+			sourceTree = "<group>";
+		};
 		59BD75851DEFFC72003A7E45 = {
 			isa = PBXGroup;
 			children = (
@@ -60,8 +75,13 @@
 		59BD75901DEFFC72003A7E45 /* web-service */ = {
 			isa = PBXGroup;
 			children = (
+				593A57CD1E112FD4005BD856 /* json */,
 				59BD75981DEFFF1D003A7E45 /* http */,
 				59BD75911DEFFC72003A7E45 /* main.cpp */,
+				593A57D01E11330D005BD856 /* config.cpp */,
+				593A57D11E11330D005BD856 /* config.hpp */,
+				593A57D31E1133FB005BD856 /* application.cpp */,
+				593A57D41E1133FB005BD856 /* application.hpp */,
 			);
 			path = "web-service";
 			sourceTree = "<group>";
@@ -78,8 +98,6 @@
 			isa = PBXGroup;
 			children = (
 				59BD75A41DF00C12003A7E45 /* spec.h */,
-				5992C1021DF0F1DB009BB27D /* helper.h */,
-				5992C1031DF19927009BB27D /* types.h */,
 			);
 			name = "json-rpc";
 			sourceTree = "<group>";
@@ -142,6 +160,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				59BD75921DEFFC72003A7E45 /* main.cpp in Sources */,
+				593A57D21E11330D005BD856 /* config.cpp in Sources */,
+				593A57D51E1133FB005BD856 /* application.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -238,14 +258,20 @@
 		59BD75961DEFFC72003A7E45 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
-				CLANG_CXX_LIBRARY = "compiler-default";
-				GCC_C_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				GCC_C_LANGUAGE_STANDARD = c11;
 				HEADER_SEARCH_PATHS = (
 					/usr/include,
 					/usr/local/include,
 				);
 				LIBRARY_SEARCH_PATHS = /usr/local/Cellar/boost/1.60.0_1/lib/;
+				OTHER_LDFLAGS = (
+					"-lboost_program_options",
+					"-lboost_system",
+					"-lboost_filesystem",
+				);
+				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
@@ -255,14 +281,20 @@
 		59BD75971DEFFC72003A7E45 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
-				CLANG_CXX_LIBRARY = "compiler-default";
-				GCC_C_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				GCC_C_LANGUAGE_STANDARD = c11;
 				HEADER_SEARCH_PATHS = (
 					/usr/include,
 					/usr/local/include,
 				);
 				LIBRARY_SEARCH_PATHS = /usr/local/Cellar/boost/1.60.0_1/lib/;
+				OTHER_LDFLAGS = (
+					"-lboost_program_options",
+					"-lboost_system",
+					"-lboost_filesystem",
+				);
+				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";

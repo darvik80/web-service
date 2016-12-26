@@ -14,8 +14,8 @@
 #include <boost/optional.hpp>
 #include <boost/property_tree/ptree.hpp>
 
-#include "types.h"
-#include "helper.h"
+#include "../../json/json-types.h"
+#include "../../json/json-helper.h"
 
 namespace json_rpc {
 #define Version "2.0"
@@ -29,12 +29,12 @@ namespace json_rpc {
         ServerError = -32000, // to -32099	Server error	Reserved for implementation-defined server-errors.
     };
     
-    class Request : public JsonBase {
+    class Request : public json::JsonBase {
     public:
         std::string method;
-        boost::optional<jsonTree> params;
+        boost::optional<json::tree> params;
         
-        boost::optional<jsonTree> id;
+        boost::optional<json::tree> id;
         std::string jsonrpc;
     public:
         Request() : jsonrpc(Version) {}
@@ -57,11 +57,11 @@ namespace json_rpc {
         }
     };
     
-    class Error : public JsonBase {
+    class Error : public json::JsonBase {
     public:
         int code;
         std::string message;
-        boost::optional<jsonTree> data;
+        boost::optional<json::tree> data;
     public:
         Error() : code(0) {}
         Error(int code, const std::string& message) :code(code), message(message) {}
@@ -79,12 +79,12 @@ namespace json_rpc {
         END_JSON_UNMARSHAL
     };
     
-    class Response : public JsonBase {
+    class Response : public json::JsonBase {
     public:
-        boost::optional<jsonTree> result;
+        boost::optional<json::tree> result;
         boost::optional<Error> error;
         
-        boost::optional<jsonTree> id;
+        boost::optional<json::tree> id;
         std::string jsonrpc;
     public:
         Response() : jsonrpc(Version) {}

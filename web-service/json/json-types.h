@@ -9,19 +9,19 @@
 #ifndef types_h
 #define types_h
 
-namespace json_rpc {
-    typedef boost::property_tree::ptree jsonTree;
-
+namespace json {
+    typedef boost::property_tree::ptree tree;
+    
     class IMarshal {
     public:
-        virtual const jsonTree marshal() throw (std::exception) = 0;
+        virtual const tree marshal() throw (std::exception) = 0;
     };
-
+    
     class IUnmarshal {
     public:
-        virtual void unmarshal(const jsonTree& doc) throw (std::exception) = 0;
+        virtual void unmarshal(const tree& doc) throw (std::exception) = 0;
     };
-
+    
     class IValidator {
     public:
         virtual bool validate() = 0;
