@@ -16,6 +16,7 @@
 		592ABE4D1E5882760008206A /* reply.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 592ABE4B1E5882760008206A /* reply.cpp */; };
 		592ABE501E5882B90008206A /* header.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 592ABE4E1E5882B90008206A /* header.cpp */; };
 		592ABE531E5882DC0008206A /* mime_types.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 592ABE511E5882DC0008206A /* mime_types.cpp */; };
+		592ABE581E5891F50008206A /* logger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 592ABE561E5891F50008206A /* logger.cpp */; };
 		593A57D21E11330D005BD856 /* config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 593A57D01E11330D005BD856 /* config.cpp */; };
 		593A57D51E1133FB005BD856 /* application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 593A57D31E1133FB005BD856 /* application.cpp */; };
 		59BD75921DEFFC72003A7E45 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59BD75911DEFFC72003A7E45 /* main.cpp */; };
@@ -53,6 +54,8 @@
 		592ABE511E5882DC0008206A /* mime_types.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mime_types.cpp; path = http/mime_types.cpp; sourceTree = "<group>"; };
 		592ABE521E5882DC0008206A /* mime_types.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = mime_types.hpp; path = http/mime_types.hpp; sourceTree = "<group>"; };
 		592ABE551E5885600008206A /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = index.html; path = webroot/index.html; sourceTree = "<group>"; };
+		592ABE561E5891F50008206A /* logger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = logger.cpp; sourceTree = "<group>"; };
+		592ABE571E5891F50008206A /* logger.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = logger.hpp; sourceTree = "<group>"; };
 		593A57CE1E113018005BD856 /* json-helper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "json-helper.h"; path = "json/json-helper.h"; sourceTree = "<group>"; };
 		593A57CF1E11303F005BD856 /* json-types.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "json-types.h"; path = "json/json-types.h"; sourceTree = "<group>"; };
 		593A57D01E11330D005BD856 /* config.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = config.cpp; sourceTree = "<group>"; };
@@ -119,6 +122,8 @@
 				593A57D11E11330D005BD856 /* config.hpp */,
 				593A57D31E1133FB005BD856 /* application.cpp */,
 				593A57D41E1133FB005BD856 /* application.hpp */,
+				592ABE561E5891F50008206A /* logger.cpp */,
+				592ABE571E5891F50008206A /* logger.hpp */,
 			);
 			path = "web-service";
 			sourceTree = "<group>";
@@ -218,6 +223,7 @@
 				592ABE441E587A330008206A /* request_handler.cpp in Sources */,
 				59BD75921DEFFC72003A7E45 /* main.cpp in Sources */,
 				592ABE411E58763F0008206A /* connection_manager.cpp in Sources */,
+				592ABE581E5891F50008206A /* logger.cpp in Sources */,
 				592ABE4D1E5882760008206A /* reply.cpp in Sources */,
 				592ABE3E1E5875330008206A /* connection.cpp in Sources */,
 				593A57D21E11330D005BD856 /* config.cpp in Sources */,
@@ -334,6 +340,10 @@
 					"-lboost_program_options",
 					"-lboost_system",
 					"-lboost_filesystem",
+					"-lboost_thread-mt",
+					"-lboost_date_time",
+					"-lboost_log_setup-mt",
+					"-lboost_log-mt",
 				);
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -357,6 +367,10 @@
 					"-lboost_program_options",
 					"-lboost_system",
 					"-lboost_filesystem",
+					"-lboost_thread-mt",
+					"-lboost_date_time",
+					"-lboost_log_setup-mt",
+					"-lboost_log-mt",
 				);
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";

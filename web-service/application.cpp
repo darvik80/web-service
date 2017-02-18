@@ -20,14 +20,10 @@
 
 #include "http/server.hpp"
 
+#include "logger.hpp"
+
 using namespace std;
 using namespace boost;
-
-void handler(asio::signal_set& this_, system::error_code error, int signal_number) {
-    if (!error) {
-        std::cout << " A signal(SIGINT) occurred." << std::endl;
-    }
-}
 
 void Application::create(int argc, const char * argv[]) {
     std::string appName = boost::filesystem::basename(argv[0]);
@@ -39,10 +35,7 @@ void Application::create(int argc, const char * argv[]) {
     ("http_server", program_options::value<string>()->default_value("localhost"), "http server address, default is localhost")
     ("http_port", program_options::value<string>()->default_value("8080"), "http server address, default is 8080")
     ("http_webroot", program_options::value<string>()->default_value("/Users/darvik/OSXProjects/web-service/webroot"), "http root path");
-    
-    
-    
-    
+
     program_options::store(program_options::parse_command_line(argc, argv, desc), m_vm);
     
     if (m_vm.count("help")) {
@@ -54,18 +47,26 @@ void Application::create(int argc, const char * argv[]) {
 
     cout << "App: " << appName << endl;
     if (m_vm.count("config")) {
-        cout << "config: " << m_vm["config"].as<string>()  << endl;
+        LOG_INFO << "config: " << m_vm["config"].as<string>() ;
         //TODO: parse config
     }
 
-    cout << "Application started" << endl;
+    LOG_INFO << "Application started";
 }
 
 void Application::run() {
     asio::io_service io;
     asio::signal_set signals(io, SIGTERM, SIGINT, SIGQUIT);
     // Start an asynchronous wait for one of the signals to occur.
-    signals.async_wait(bind(handler, boost::ref(signals), _1, _2));
+    
+    signals.async_wait(
+                        [this](boost::system::error_code ec, int /*signo*/)
+                        {
+                            if (!ec) {
+                                LOG_INFO << " A signal(SIGINT) occurred.";
+                            }
+
+                        });
     
     http::server::server server(io, m_vm["http_server"].as<string>(), m_vm["http_port"].as<string>(), m_vm["http_webroot"].as<string>());
     
@@ -73,5 +74,5 @@ void Application::run() {
 }
 
 void Application::destroy() {
-    cout << "Application stopped" << endl;
+    LOG_INFO << "Application stopped";
 }

@@ -10,13 +10,14 @@
 
 #include "server.hpp"
 #include <utility>
+#include "logger.hpp"
 
 namespace http {
     namespace server {
         
         server::server(boost::asio::io_service &io_service, const std::string& address, const std::string& port, const std::string& doc_root)
         : io_service_(io_service),
-        signals_(io_service_),
+        signals_(io_service, SIGTERM, SIGINT, SIGQUIT),
         acceptor_(io_service_),
         connection_manager_(),
         socket_(io_service_),
@@ -70,6 +71,8 @@ namespace http {
                                     // call will exit.
                                     acceptor_.close();
                                     connection_manager_.stop_all();
+                                    
+                                    LOG_INFO << "http_server stopped";
                                 });
         }
         

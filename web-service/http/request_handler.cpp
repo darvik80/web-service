@@ -15,6 +15,7 @@
 #include "mime_types.hpp"
 #include "reply.hpp"
 #include "request.hpp"
+#include "logger.hpp"
 
 namespace http {
     namespace server {
@@ -59,6 +60,7 @@ namespace http {
             
             // Open the file to send back.
             std::string full_path = doc_root_ + request_path;
+            LOG_DEBUG << "Handle " << full_path;
             std::ifstream is(full_path.c_str(), std::ios::in | std::ios::binary);
             if (!is)
             {
