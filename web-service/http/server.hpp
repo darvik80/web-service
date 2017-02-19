@@ -12,10 +12,12 @@
 #define HTTP_SERVER_HPP
 
 #include <boost/asio.hpp>
+#include <boost/shared_ptr.hpp>
 #include <string>
 #include "connection.hpp"
 #include "connection_manager.hpp"
 #include "request_handler.hpp"
+#include "request_router.hpp"
 
 namespace http {
     namespace server {
@@ -31,6 +33,7 @@ namespace http {
             /// serve up files from the given directory.
             explicit server(boost::asio::io_service &io_service, const std::string& address, const std::string& port, const std::string& doc_root);
             
+            void register_handler(const std::string& method, const std::string& handle, boost::shared_ptr<request_handler_abstract> route);
         private:
             /// Perform an asynchronous accept operation.
             void do_accept();
@@ -54,7 +57,7 @@ namespace http {
             boost::asio::ip::tcp::socket socket_;
             
             /// The handler for all incoming requests.
-            request_handler request_handler_;
+            request_router request_router_;
         };
         
     } // namespace server

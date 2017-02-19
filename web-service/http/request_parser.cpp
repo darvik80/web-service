@@ -11,11 +11,18 @@
 #include "request_parser.hpp"
 #include "request.hpp"
 
+#include <boost/lexical_cast.hpp>
+
 namespace http {
     namespace server {
         
+        std::string request_parser::content_length_name_ = "Content-Length";
+        std::string request_parser::content_type_name_ = "Content-Type";
+        
         request_parser::request_parser()
         : state_(method_start)
+        , left_acumulate_(0)
+        , content_length_(-1)
         {
         }
         
@@ -51,7 +58,7 @@ namespace http {
                     }
                     else
                     {
-                        req.method.push_back(input);
+                        req.method.push_back(std::toupper(input));
                         return indeterminate;
                     }
                 case uri:
@@ -263,6 +270,11 @@ namespace http {
                     else
                     {
                         req.headers.back().value.push_back(input);
+                        if (headers_equal(req.headers.back().name, content_length_name_)) {
+                            content_length_ = boost::lexical_cast<std::size_t>(req.headers.back().value);
+                        } else if (headers_equal(req.headers.back().name, content_type_name_)) {
+                            req.content_type = req.headers.back().value;
+                        }
                         return indeterminate;
                     }
                 case expecting_newline_2:
@@ -276,11 +288,30 @@ namespace http {
                         return bad;
                     }
                 case expecting_newline_3:
-                    return (input == '\n') ? good : bad;
+                    if (input == '\n') {
+                        if (req.method == "POST" || req.method == "PUT") {
+                            if (content_length_ == -1) {
+                                state_ = content_unknown_size;
+                            } else {
+                                left_acumulate_ = content_length_;
+                                state_ = content_fixed_size;
+                            }
+                            
+                            return content;
+                        }
+
+                        return good;
+                    }
+                    return bad;
                 default:
                     return bad;
             }
         }
+        
+        void request_parser::append_content(request& req, char* input, size_t block_size) {
+            req.content.insert(req.content.end(), input, input+block_size);
+        }
+
         
         bool request_parser::is_char(int c)
         {
@@ -309,6 +340,20 @@ namespace http {
         bool request_parser::is_digit(int c)
         {
             return c >= '0' && c <= '9';
+        }
+        
+        bool request_parser::tolower_compare(char a, char b)
+        {
+            return std::tolower(a) == std::tolower(b);
+        }
+        
+        bool request_parser::headers_equal(const std::string& a, const std::string& b)
+        {
+            if (a.length() != b.length())
+                return false;
+            
+            return std::equal(a.begin(), a.end(), b.begin(),
+                              &request_parser::tolower_compare);
         }
         
     } // namespace server

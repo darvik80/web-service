@@ -17,10 +17,12 @@
 #include <boost/asio/signal_set.hpp>
 #include <boost/bind.hpp>
 #include <boost/ref.hpp>
+#include <boost/shared_ptr.hpp>
 
 #include "http/server.hpp"
 
 #include "logger.hpp"
+#include "http/json-rpc/JSONRPC2Handler.hpp"
 
 using namespace std;
 using namespace boost;
@@ -69,6 +71,7 @@ void Application::run() {
                         });
     
     http::server::server server(io, m_vm["http_server"].as<string>(), m_vm["http_port"].as<string>(), m_vm["http_webroot"].as<string>());
+    server.register_handler("POST", "/rpc", boost::make_shared<JSONRPC2Handler>());
     
     io.run();
 }

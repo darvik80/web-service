@@ -16,7 +16,7 @@
 #include <boost/asio.hpp>
 #include "reply.hpp"
 #include "request.hpp"
-#include "request_handler.hpp"
+#include "request_router.hpp"
 #include "request_parser.hpp"
 
 namespace http {
@@ -33,7 +33,7 @@ namespace http {
             connection& operator=(const connection&) = delete;
             
             /// Construct a connection with the given socket.
-            explicit connection(boost::asio::ip::tcp::socket socket, connection_manager& manager, request_handler& handler);
+            explicit connection(boost::asio::ip::tcp::socket socket, connection_manager& manager, request_router& router);
             
             /// Start the first asynchronous operation for the connection.
             void start();
@@ -55,7 +55,7 @@ namespace http {
             connection_manager& connection_manager_;
             
             /// The handler used to process the incoming request.
-            request_handler& request_handler_;
+            request_router& request_router_;
             
             /// Buffer for incoming data.
             std::array<char, 8192> buffer_;

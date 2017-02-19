@@ -21,7 +21,7 @@ namespace http {
         acceptor_(io_service_),
         connection_manager_(),
         socket_(io_service_),
-        request_handler_(doc_root)
+        request_router_(doc_root)
         {
             // Register to handle the signals that indicate when the server should exit.
             // It is safe to register for the same signal multiple times in a program,
@@ -54,7 +54,7 @@ namespace http {
                                        
                                        if (!ec)
                                        {
-                                           connection_manager_.start(std::make_shared<connection>(std::move(socket_), connection_manager_, request_handler_));
+                                           connection_manager_.start(std::make_shared<connection>(std::move(socket_), connection_manager_, request_router_));
                                        }
                                        
                                        do_accept();
@@ -74,6 +74,10 @@ namespace http {
                                     
                                     LOG_INFO << "http_server stopped";
                                 });
+        }
+        
+        void server::register_handler(const std::string& method, const std::string& handle, boost::shared_ptr<request_handler_abstract> route) {
+            request_router_.register_handler(method, handle, route);
         }
         
     } // namespace server

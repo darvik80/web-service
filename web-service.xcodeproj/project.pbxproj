@@ -17,6 +17,9 @@
 		592ABE501E5882B90008206A /* header.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 592ABE4E1E5882B90008206A /* header.cpp */; };
 		592ABE531E5882DC0008206A /* mime_types.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 592ABE511E5882DC0008206A /* mime_types.cpp */; };
 		592ABE581E5891F50008206A /* logger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 592ABE561E5891F50008206A /* logger.cpp */; };
+		592ABE5E1E59DEEE0008206A /* request_router.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 592ABE5C1E59DEEE0008206A /* request_router.cpp */; };
+		592ABE611E59E5310008206A /* JSONRPC2Handler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 592ABE5F1E59E5310008206A /* JSONRPC2Handler.cpp */; };
+		592ABE641E59E75C0008206A /* JSONRPC2Method.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 592ABE621E59E75C0008206A /* JSONRPC2Method.cpp */; };
 		593A57D21E11330D005BD856 /* config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 593A57D01E11330D005BD856 /* config.cpp */; };
 		593A57D51E1133FB005BD856 /* application.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 593A57D31E1133FB005BD856 /* application.cpp */; };
 		59BD75921DEFFC72003A7E45 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 59BD75911DEFFC72003A7E45 /* main.cpp */; };
@@ -56,6 +59,12 @@
 		592ABE551E5885600008206A /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = index.html; path = webroot/index.html; sourceTree = "<group>"; };
 		592ABE561E5891F50008206A /* logger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = logger.cpp; sourceTree = "<group>"; };
 		592ABE571E5891F50008206A /* logger.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = logger.hpp; sourceTree = "<group>"; };
+		592ABE5C1E59DEEE0008206A /* request_router.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = request_router.cpp; path = http/request_router.cpp; sourceTree = "<group>"; };
+		592ABE5D1E59DEEE0008206A /* request_router.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = request_router.hpp; path = http/request_router.hpp; sourceTree = "<group>"; };
+		592ABE5F1E59E5310008206A /* JSONRPC2Handler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JSONRPC2Handler.cpp; path = "http/json-rpc/JSONRPC2Handler.cpp"; sourceTree = "<group>"; };
+		592ABE601E59E5310008206A /* JSONRPC2Handler.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = JSONRPC2Handler.hpp; path = "http/json-rpc/JSONRPC2Handler.hpp"; sourceTree = "<group>"; };
+		592ABE621E59E75C0008206A /* JSONRPC2Method.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = JSONRPC2Method.cpp; path = "http/json-rpc/JSONRPC2Method.cpp"; sourceTree = "<group>"; };
+		592ABE631E59E75C0008206A /* JSONRPC2Method.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = JSONRPC2Method.hpp; path = "http/json-rpc/JSONRPC2Method.hpp"; sourceTree = "<group>"; };
 		593A57CE1E113018005BD856 /* json-helper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "json-helper.h"; path = "json/json-helper.h"; sourceTree = "<group>"; };
 		593A57CF1E11303F005BD856 /* json-types.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "json-types.h"; path = "json/json-types.h"; sourceTree = "<group>"; };
 		593A57D01E11330D005BD856 /* config.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = config.cpp; sourceTree = "<group>"; };
@@ -150,6 +159,8 @@
 				592ABE4F1E5882B90008206A /* header.hpp */,
 				592ABE511E5882DC0008206A /* mime_types.cpp */,
 				592ABE521E5882DC0008206A /* mime_types.hpp */,
+				592ABE5C1E59DEEE0008206A /* request_router.cpp */,
+				592ABE5D1E59DEEE0008206A /* request_router.hpp */,
 			);
 			name = http;
 			sourceTree = "<group>";
@@ -158,6 +169,10 @@
 			isa = PBXGroup;
 			children = (
 				59BD75A41DF00C12003A7E45 /* spec.h */,
+				592ABE5F1E59E5310008206A /* JSONRPC2Handler.cpp */,
+				592ABE601E59E5310008206A /* JSONRPC2Handler.hpp */,
+				592ABE621E59E75C0008206A /* JSONRPC2Method.cpp */,
+				592ABE631E59E75C0008206A /* JSONRPC2Method.hpp */,
 			);
 			name = "json-rpc";
 			sourceTree = "<group>";
@@ -224,11 +239,14 @@
 				59BD75921DEFFC72003A7E45 /* main.cpp in Sources */,
 				592ABE411E58763F0008206A /* connection_manager.cpp in Sources */,
 				592ABE581E5891F50008206A /* logger.cpp in Sources */,
+				592ABE641E59E75C0008206A /* JSONRPC2Method.cpp in Sources */,
 				592ABE4D1E5882760008206A /* reply.cpp in Sources */,
 				592ABE3E1E5875330008206A /* connection.cpp in Sources */,
 				593A57D21E11330D005BD856 /* config.cpp in Sources */,
 				592ABE3B1E5874AE0008206A /* server.cpp in Sources */,
+				592ABE611E59E5310008206A /* JSONRPC2Handler.cpp in Sources */,
 				592ABE4A1E5882540008206A /* request.cpp in Sources */,
+				592ABE5E1E59DEEE0008206A /* request_router.cpp in Sources */,
 				592ABE501E5882B90008206A /* header.cpp in Sources */,
 				593A57D51E1133FB005BD856 /* application.cpp in Sources */,
 				592ABE531E5882DC0008206A /* mime_types.cpp in Sources */,
@@ -328,6 +346,7 @@
 		59BD75961DEFFC72003A7E45 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				GCC_C_LANGUAGE_STANDARD = c11;
@@ -355,6 +374,7 @@
 		59BD75971DEFFC72003A7E45 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				GCC_C_LANGUAGE_STANDARD = c11;
