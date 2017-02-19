@@ -11,8 +11,8 @@
 namespace http {
     namespace server {
         
-        request_router::request_router(const std::string& doc_root)
-        : doc_root_(doc_root)
+        request_router::request_router(boost::shared_ptr<request_handler_abstract> route)
+        : default_(route)
         {
         }
         
@@ -34,6 +34,10 @@ namespace http {
                 return true;
             }
             
+            while ((request_path.size() > 2) && (*request_path.rbegin() == '/')) {
+                request_path.pop_back();
+            }
+            
             LOG_INFO << "Route: " << request_path;
             auto route = routes_.find(req.method+":"+request_path);
             if (route != routes_.end()) {
@@ -43,7 +47,11 @@ namespace http {
                 
                 return true;
             }
-            
+
+            if (default_) {
+                return default_->handle_request(req, rep);
+            }
+
             rep = reply::stock_reply(reply::not_found);
             return true;
         }

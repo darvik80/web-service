@@ -70,7 +70,7 @@ void Application::run() {
 
                         });
     
-    http::server::server server(io, m_vm["http_server"].as<string>(), m_vm["http_port"].as<string>(), m_vm["http_webroot"].as<string>());
+    http::server::server server(io, m_vm["http_server"].as<string>(), m_vm["http_port"].as<string>(), boost::make_shared<http::server::request_handler>(m_vm["http_webroot"].as<string>()));
     server.register_handler("POST", "/rpc", boost::make_shared<JSONRPC2Handler>());
     
     io.run();

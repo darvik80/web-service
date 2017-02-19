@@ -24,7 +24,7 @@ namespace http {
         };
         
         /// The common handler for all incoming requests.
-        class request_handler
+        class request_handler : public request_handler_abstract
         {
         public:
             request_handler(const request_handler&) = delete;
@@ -34,7 +34,7 @@ namespace http {
             explicit request_handler(const std::string& doc_root);
             
             /// Handle a request and produce a reply.
-            void handle_request(const request& req, reply& rep);
+            virtual bool handle_request(const request& req, reply& rep);
             
         private:
             /// The directory containing the files to be served.

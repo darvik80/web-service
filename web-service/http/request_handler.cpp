@@ -25,27 +25,14 @@ namespace http {
         {
         }
         
-        void request_handler::handle_request(const request& req, reply& rep)
+        bool request_handler::handle_request(const request& req, reply& rep)
         {
-            // Just small experiment
-            if (req.method == "POST") {
-                rep.status = reply::ok;
-                rep.content = "<html><body>" + std::string((char*)&(*req.content.begin()), req.content.size())+"</body></html>";
-                rep.headers.resize(2);
-                rep.headers[0].name = "Content-Length";
-                rep.headers[0].value = std::to_string(rep.content.size());
-                rep.headers[1].name = "Content-Type";
-                rep.headers[1].value = "text/html";
-                
-                return;
-            }
-
             // Decode url to path.
             std::string request_path;
             if (!url_decode(req.uri, request_path))
             {
                 rep = reply::stock_reply(reply::bad_request);
-                return;
+                return true;
             }
             
             // Request path must be absolute and not contain "..".
@@ -53,7 +40,7 @@ namespace http {
                 || request_path.find("..") != std::string::npos)
             {
                 rep = reply::stock_reply(reply::bad_request);
-                return;
+                return true;
             }
             
             // If path ends in slash (i.e. is a directory) then add "index.html".
@@ -78,7 +65,7 @@ namespace http {
             if (!is)
             {
                 rep = reply::stock_reply(reply::not_found);
-                return;
+                return true;
             }
             
             // Fill out the reply to be sent to the client.
@@ -91,6 +78,8 @@ namespace http {
             rep.headers[0].value = std::to_string(rep.content.size());
             rep.headers[1].name = "Content-Type";
             rep.headers[1].value = mime_types::extension_to_type(extension);
+            
+            return true;
         }
         
         bool request_handler::url_decode(const std::string& in, std::string& out)

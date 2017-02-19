@@ -15,13 +15,13 @@
 namespace http {
     namespace server {
         
-        server::server(boost::asio::io_service &io_service, const std::string& address, const std::string& port, const std::string& doc_root)
+        server::server(boost::asio::io_service &io_service, const std::string& address, const std::string& port, boost::shared_ptr<request_handler_abstract> route)
         : io_service_(io_service),
         signals_(io_service, SIGTERM, SIGINT, SIGQUIT),
         acceptor_(io_service_),
         connection_manager_(),
         socket_(io_service_),
-        request_router_(doc_root)
+        request_router_(route)
         {
             // Register to handle the signals that indicate when the server should exit.
             // It is safe to register for the same signal multiple times in a program,

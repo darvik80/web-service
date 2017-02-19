@@ -31,7 +31,7 @@ namespace http {
             
             /// Construct the server to listen on the specified TCP address and port, and
             /// serve up files from the given directory.
-            explicit server(boost::asio::io_service &io_service, const std::string& address, const std::string& port, const std::string& doc_root);
+            explicit server(boost::asio::io_service &io_service, const std::string& address, const std::string& port, boost::shared_ptr<request_handler_abstract> route);
             
             void register_handler(const std::string& method, const std::string& handle, boost::shared_ptr<request_handler_abstract> route);
         private:

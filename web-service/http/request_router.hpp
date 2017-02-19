@@ -32,7 +32,7 @@ namespace http {
             request_router& operator=(const request_router&) = delete;
             
             /// Construct with a directory containing files to be served.
-            explicit request_router(const std::string& doc_root);
+            explicit request_router(boost::shared_ptr<request_handler_abstract> route);
             
             /// Handle a request and produce a reply.
             bool handle_request(const request& req, reply& rep);
@@ -46,6 +46,7 @@ namespace http {
             /// invalid.
             static bool url_decode(const std::string& in, std::string& out);
             
+            boost::shared_ptr<request_handler_abstract> default_;
             std::map<std::string, boost::shared_ptr<request_handler_abstract> > routes_;
         };
         
