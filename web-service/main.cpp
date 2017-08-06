@@ -11,7 +11,22 @@
 #include "json/json-helper.h"
 #include "application.hpp"
 
+#define BOOST_NETWORK_ENABLE_HTTPS
+
+#include <boost/network/protocol/http/client.hpp>
+
+using namespace boost::network;
+
 int main(int argc, const char * argv[]) {
+   
+    http::client client;
+    http::client::request request("https://mail.ru/");
+    request << header("Connection", "close");
+    http::client::response response = client.get(request);
+    for(auto header : response.headers()) {
+        std::cout << header.first << ": " << header.second << std::endl;
+    }
+    
     try {
         Application app;
         app.create(argc, argv);

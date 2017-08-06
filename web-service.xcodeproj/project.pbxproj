@@ -351,10 +351,13 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				GCC_C_LANGUAGE_STANDARD = c11;
 				HEADER_SEARCH_PATHS = (
-					/usr/include,
+					/usr/local/Cellar/openssl/1.0.2e_1/include,
 					/usr/local/include,
 				);
-				LIBRARY_SEARCH_PATHS = /usr/local/Cellar/boost/1.60.0_1/lib/;
+				LIBRARY_SEARCH_PATHS = (
+					/usr/local/lib,
+					/usr/local/Cellar/openssl/1.0.2e_1/lib,
+				);
 				OTHER_LDFLAGS = (
 					"-lboost_program_options",
 					"-lboost_system",
@@ -363,6 +366,11 @@
 					"-lboost_date_time",
 					"-lboost_log_setup-mt",
 					"-lboost_log-mt",
+					"-lcppnetlib-client-connections",
+					"-lnetwork-uri",
+					"-lcppnetlib-server-parsers",
+					"-lcrypto",
+					"-lssl",
 				);
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -379,10 +387,13 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				GCC_C_LANGUAGE_STANDARD = c11;
 				HEADER_SEARCH_PATHS = (
-					/usr/include,
+					/usr/local/Cellar/openssl/1.0.2e_1/include,
 					/usr/local/include,
 				);
-				LIBRARY_SEARCH_PATHS = /usr/local/Cellar/boost/1.60.0_1/lib/;
+				LIBRARY_SEARCH_PATHS = (
+					/usr/local/lib,
+					/usr/local/Cellar/openssl/1.0.2e_1/lib,
+				);
 				OTHER_LDFLAGS = (
 					"-lboost_program_options",
 					"-lboost_system",
@@ -391,6 +402,11 @@
 					"-lboost_date_time",
 					"-lboost_log_setup-mt",
 					"-lboost_log-mt",
+					"-lcppnetlib-client-connections",
+					"-lnetwork-uri",
+					"-lcppnetlib-server-parsers",
+					"-lcrypto",
+					"-lssl",
 				);
 				OTHER_LIBTOOLFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
