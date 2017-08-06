@@ -6,15 +6,19 @@
 //  Copyright © 2016 Ivan Kishchenko. All rights reserved.
 //
 
+#define BOOST_NETWORK_ENABLE_HTTPS
+
 #include <iostream>
+#include <sstream>
+#include <boost/lexical_cast.hpp>
+
 #include "http/json-rpc/spec.h"
 #include "json/json-helper.h"
 #include "application.hpp"
 
-#define BOOST_NETWORK_ENABLE_HTTPS
-
 #include <boost/network/protocol/http/client.hpp>
 
+using namespace boost;
 using namespace boost::network;
 
 int main(int argc, const char * argv[]) {
@@ -25,6 +29,16 @@ int main(int argc, const char * argv[]) {
     http::client::response response = client.get(request);
     for(auto header : response.headers()) {
         std::cout << header.first << ": " << header.second << std::endl;
+    }
+    
+    std::cout << std::endl;
+    
+    auto iter = response.headers().find("Content-Length");
+    if (iter != response.headers().end()) {
+        auto result = lexical_cast<size_t>(iter->second);
+        if (result) {
+            std::cout << body(response) << std::endl;
+        }
     }
     
     try {
